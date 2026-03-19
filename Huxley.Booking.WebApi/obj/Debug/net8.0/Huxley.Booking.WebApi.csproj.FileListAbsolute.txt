@@ -150,3 +150,4 @@ C:\Code\Huxley.Booking\Huxley.Booking.WebApi\bin\Debug\net8.0\Huxley.Itinerary.D
 C:\Code\Huxley.Booking\Huxley.Booking.WebApi\bin\Debug\net8.0\MongoDB.Bson.dll
 C:\Code\Huxley.Booking\Huxley.Booking.WebApi\bin\Debug\net8.0\appsettings.backup.json
 C:\Code\Huxley.Booking\Huxley.Booking.WebApi\bin\Debug\net8.0\appsettings.Beta.json
+C:\Code\Huxley.Booking\Huxley.Booking.WebApi\obj\Debug\net8.0\Huxley.Booking.WebApi.sourcelink.json

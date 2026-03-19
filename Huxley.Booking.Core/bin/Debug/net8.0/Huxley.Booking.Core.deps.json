@@ -12,7 +12,7 @@
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "Huxley.Core": "1.0.11",
           "Huxley.Hosting": "8.2.6",
-          "Huxley.Itinerary.Domain": "1.3.7",
+          "Huxley.Itinerary.Domain": "1.4.0",
           "Huxley.Legacy.VslRuntime.Client": "1.4.2",
           "MediatR": "14.0.0",
           "Serilog.Extensions.Hosting": "10.0.0",
@@ -91,7 +91,7 @@
           }
         }
       },
-      "Huxley.Itinerary.Domain/1.3.7": {
+      "Huxley.Itinerary.Domain/1.4.0": {
         "dependencies": {
           "FluentValidation": "12.1.1",
           "MongoDB.Bson": "3.0.0",
@@ -99,8 +99,8 @@
         },
         "runtime": {
           "lib/net8.0/Huxley.Itinerary.Domain.dll": {
-            "assemblyVersion": "1.3.7.0",
-            "fileVersion": "1.3.7.0"
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
           }
         }
       },
@@ -594,12 +594,12 @@
       "path": "huxley.hosting/8.2.6",
       "hashPath": "huxley.hosting.8.2.6.nupkg.sha512"
     },
-    "Huxley.Itinerary.Domain/1.3.7": {
+    "Huxley.Itinerary.Domain/1.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-V/qcCzbLUCu9R8W4ClLfldyZ7wVLKbyBfZx9HOybm9xiazpdCdFxUQ3cSyy//mdbW684EOLpBO1H4Ykwx3ZG5A==",
-      "path": "huxley.itinerary.domain/1.3.7",
-      "hashPath": "huxley.itinerary.domain.1.3.7.nupkg.sha512"
+      "sha512": "sha512-kUe4Fd/uG+ecVCuTqelvfoBMq06cXuWmtTLhR+oyE4OLj6XxaHJw5mWUzeEf+Q/PEYh0TwsUvk4I80GO3ddENw==",
+      "path": "huxley.itinerary.domain/1.4.0",
+      "hashPath": "huxley.itinerary.domain.1.4.0.nupkg.sha512"
     },
     "Huxley.Legacy.VslRuntime.Client/1.4.2": {
       "type": "package",

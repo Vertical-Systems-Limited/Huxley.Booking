@@ -22,3 +22,4 @@ C:\Code\Huxley.Booking\Huxley.Booking.Core\obj\Debug\net8.0\Huxley.Booking.Core.
 C:\Code\Huxley.Booking\Huxley.Booking.Core\obj\Debug\net8.0\refint\Huxley.Booking.Core.dll
 C:\Code\Huxley.Booking\Huxley.Booking.Core\obj\Debug\net8.0\Huxley.Booking.Core.pdb
 C:\Code\Huxley.Booking\Huxley.Booking.Core\obj\Debug\net8.0\ref\Huxley.Booking.Core.dll
+C:\Code\Huxley.Booking\Huxley.Booking.Core\obj\Debug\net8.0\Huxley.Booking.Core.sourcelink.json

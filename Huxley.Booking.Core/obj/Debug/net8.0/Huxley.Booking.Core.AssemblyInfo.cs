@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Huxley.Booking.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e36eecc6fac632eb8b3a5096d94fc58abed45c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Huxley.Booking.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Huxley.Booking.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
