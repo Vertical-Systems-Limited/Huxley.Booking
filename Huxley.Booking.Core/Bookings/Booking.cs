@@ -1,0 +1,73 @@
+﻿namespace Huxley.Booking.Core.Bookings;
+
+public class Booking
+{
+    public string FileNumber { get; set; }
+    public int BranchNumber { get; set; }
+    public string TarscInitials { get; set; }
+    public string BookingType { get; set; }
+    public DateTime BookingDate { get; set; }
+    public DateTime DepartureDate { get; set; }
+    public string DeparturePoint { get; set; }
+    public string DestinationPoint { get; set; }
+    public string LeadPassengerTitle { get; set; }
+    public string LeadPassengerInitial { get; set; }
+    public string LeadPassengerSurname { get; set; }
+    public string LeadCompany { get; set; }
+    public string LeadCompanyReference { get; set; }
+    public string TourOpCustomerDescription { get; set; }
+    public string TourOpCustomerAccountNumber { get; set; }
+    public string BrochureCode { get; set; }
+    public string SubReference { get; set; }
+    public string HolidayNumber { get; set; }
+    public string Profile { get; set; }
+    public string AnalysisCode { get; set; }
+    public string MarketingCode { get; set; }
+    public string NoteText1 { get; set; }
+    public string NoteText2 { get; set; }
+    public string CarHireCompany { get; set; }
+    public string CarHireVoucherNumber { get; set; }
+    public string CarHireGroup { get; set; }
+    public string CarHirePlan { get; set; }
+    public string CarHirePickupLocation { get; set; }
+    public string Hotel { get; set; }
+    public string Board { get; set; }
+    public string AccommodationRemark1 { get; set; }
+    public string AccommodationRemark2 { get; set; }
+    public string SpecialRequest1 { get; set; }
+    public string SpecialRequest2 { get; set; }
+    public string Status { get; set; }
+    public int Duration { get; set; }
+    public decimal OutstandingBalance { get; set; }
+    public DateTime BalanceDueDate { get; set; }
+    public decimal GrossCost { get; set; }
+    public decimal TotalDiscount { get; set; }
+    public decimal NettCost { get; set; }
+    public decimal NettReceiptFromClient { get; set; }
+    public decimal TotalBalancePaid { get; set; }
+    public decimal InsuranceCost { get; set; }
+    public decimal FactorCost { get; set; }
+    public decimal FactorVatCost { get; set; }
+    public decimal SaleVatCost { get; set; }
+    public decimal PromotionCost { get; set; }
+    public decimal ControlCost { get; set; }
+    public string AddressLine1 { get; set; }
+    public string AddressLine2 { get; set; }
+    public string AddressLine3 { get; set; }
+    public string AddressLine4 { get; set; }
+    public string Phone { get; set; }
+    public string AlternativePhone { get; set; }
+    public string DataProtectionFlag1 { get; set; }
+    public string DataProtectionFlag2 { get; set; }
+    public string PreferredMailingType { get; set; }
+    public string ConfidentialFlag { get; set; }
+    public string SpecialAssistanceFlag { get; set; }
+    public string SpecialAssistanceType { get; set; }
+    public string FileType { get; set; }
+    public DateTime DpaDate { get; set; }
+    public string ConfirmedFlag { get; set; }
+    public string TicketedFlag { get; set; }
+    public string InsuranceNoteText { get; set; }
+    public string BalanceDueDateType { get; set; }
+}
+

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Huxley.Booking.WebApi.props" />
+</Project>

@@ -1,0 +1,6 @@
+@Huxley.Booking.WebApi_HostAddress = http://localhost:5053
+
+GET {{Huxley.Booking.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

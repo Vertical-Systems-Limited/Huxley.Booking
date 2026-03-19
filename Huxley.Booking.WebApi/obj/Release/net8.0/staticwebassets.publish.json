@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "2Xbk9FNJhwnnYbBFXll2YjViUQj6rNeDyiHgU6ZcXPI=",
+  "Source": "Huxley.Booking.WebApi",
+  "BasePath": "_content/Huxley.Booking.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
