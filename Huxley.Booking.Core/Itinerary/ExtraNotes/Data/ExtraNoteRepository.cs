@@ -4,7 +4,6 @@ using Huxley.Hosting.Core;
 using Huxley.Itinerary.Domain.ExtraNotes;
 using Huxley.Legacy.VslRuntime.Client;
 using Microsoft.Extensions.Logging;
-using Huxley.Itinerary.Domain.ExtraNotes;
 
 namespace Huxley.Booking.Core.Itinerary.ExtraNotes.Data;
 

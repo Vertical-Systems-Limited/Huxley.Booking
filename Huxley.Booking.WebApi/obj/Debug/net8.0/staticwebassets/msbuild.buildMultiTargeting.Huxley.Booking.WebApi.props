@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Huxley.Booking.WebApi.props" />
-</Project>

@@ -13,5 +13,5 @@ public class Document
 
 public class DocumentData
 {
-    public Byte[] Bytes { get; set; }
+    public Byte[] Contents { get; set; }
 }

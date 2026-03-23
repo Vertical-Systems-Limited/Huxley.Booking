@@ -64,7 +64,7 @@ public class DocumentRepository(
             // map to documents and return
             return new DocumentData()
             {
-                Bytes = result.Content
+                Contents = result.Content
             };
         }
         catch (Exception e)
