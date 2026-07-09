@@ -1,6 +1,6 @@
-﻿namespace Huxley.Booking.Core.Bookings;
+﻿namespace Huxley.Booking.Core.Bookings.Contracts;
 
-public class Booking
+public class BookingViewDto
 {
     public string FileNumber { get; set; }
     public int BranchNumber { get; set; }

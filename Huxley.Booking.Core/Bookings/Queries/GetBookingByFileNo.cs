@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Huxley.Booking.Core.Bookings.Contracts;
 using Huxley.Booking.Core.Bookings.Data;
 using Huxley.Core;
 using MediatR;
@@ -40,18 +41,18 @@ public class GetBookingByFileNo(
 
 public class GetBookingByFileNoResponse
 {
-    public Booking Booking { get; set; }
+    public BookingViewDto Booking { get; set; }
     public bool Successful { get; set; }
     public string[] FailureReasons { get; set; }
 
-    private GetBookingByFileNoResponse(bool successful, string[] failureReasons, Booking booking)
+    private GetBookingByFileNoResponse(bool successful, string[] failureReasons, BookingViewDto booking)
     {
         Successful = successful;
         FailureReasons = failureReasons;
         Booking = booking;
     }
 
-    public static GetBookingByFileNoResponse CreateSuccess(Booking booking) =>
+    public static GetBookingByFileNoResponse CreateSuccess(BookingViewDto booking) =>
         new GetBookingByFileNoResponse(true, [], booking);
 
     public static GetBookingByFileNoResponse CreateFailure(string[] reasons) =>

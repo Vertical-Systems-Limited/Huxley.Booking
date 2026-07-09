@@ -1,4 +1,6 @@
-﻿namespace Huxley.Booking.Core.Passengers.Data;
+﻿using Huxley.Booking.Core.Passengers.Contracts;
+
+namespace Huxley.Booking.Core.Passengers.Data;
 
 public class PassengerRecord
 {
@@ -24,18 +26,31 @@ public class PassengerRecord
     public string Gender { get; set; }
     public string InsuranceForm { get; set; }
     public string InsurancePolicy { get; set; }
+    public static PassengerRecord MapFromDto(CreatePassengerDto createPassengerDto, string fileNumber)
+    {
+        return new PassengerRecord
+        {
+            Title = createPassengerDto.Title,
+            Firstname = createPassengerDto.FirstName,
+            Middlename = createPassengerDto.MiddleName,
+            Surname = createPassengerDto.LastName,
+            EmailAddress = createPassengerDto.Email,
+            DOB = createPassengerDto.Dob,
+            FileNumber = fileNumber
+        };
+    }
 }
 
 public static class PassengerRecordExtensions
 {
-    public static Passenger ToPassenger(this PassengerRecord passengerRecord)
+    public static PassengerViewDto ToPassenger(this PassengerRecord passengerRecord)
     {
         if (passengerRecord == null)
         {
             throw new ArgumentNullException(nameof(passengerRecord));
         }
 
-        return new Passenger
+        return new PassengerViewDto
         {
             PassengerId = int.TryParse(passengerRecord.PassengerId, out var passengerId) ? passengerId : 0,
             FileNumber = passengerRecord.FileNumber,

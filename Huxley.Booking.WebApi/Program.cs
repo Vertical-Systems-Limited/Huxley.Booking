@@ -1,5 +1,8 @@
 using Huxley.Booking.Core.Configuration;
 using Huxley.Hosting.Configuration;
+using Huxley.Itinerary.Domain;
+using Huxley.Metering.Core.Configuration;
+
 
 namespace Huxley.Booking.WebApi;
 
@@ -10,14 +13,24 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
-        builder.Services.AddControllers();
+        builder.Services
+            .AddControllers()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new ItineraryContractResolver();
+            })
+            ;
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        
+        builder.Services.AddHuxleyMetering(builder.Configuration.GetSection("MeteringOptions"));
+        builder.Services.AddMeteringMessaging();
+      
         builder.Services.AddBookingCore(builder.Configuration);
         builder.Services.AddBookingCoreLogging("Booking.WebApi");
 
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -27,13 +40,11 @@ public class Program
         //     app.UseSwaggerUI();
         // }
 
+        app.UseHuxleyMetering();
         app.UseHttpsRedirection();
-
         app.UseAuthorization();
         app.UseHuxleyWebHosting();   
-
         app.MapControllers();
-
         app.Run();
     }
 }

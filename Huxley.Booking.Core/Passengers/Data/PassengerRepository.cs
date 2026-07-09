@@ -1,4 +1,6 @@
-﻿using Huxley.Booking.Core.Bookings.Data;
+﻿using Huxley.Booking.Core.Bookings.Contracts;
+using Huxley.Booking.Core.Bookings.Data;
+using Huxley.Booking.Core.Passengers.Contracts;
 using Huxley.Core.LegacyHelpers;
 using Huxley.Hosting.Core;
 using Huxley.Legacy.VslRuntime.Client;
@@ -8,7 +10,8 @@ namespace Huxley.Booking.Core.Passengers.Data;
 
 public interface IPassengerRepository
 {
-    Task<IEnumerable<Passenger>>  GetPassengersByFileNo(string fileNo);
+    Task<bool> InsertPassengers(CreateBookingDto booking, string fileNumber);
+    Task<IEnumerable<PassengerViewDto>>  GetPassengersByFileNo(string fileNo);
 }
 
 public class PassengerRepository(
@@ -17,7 +20,35 @@ public class PassengerRepository(
     HuxleyContext context
     ) : IPassengerRepository
 {
-    public async Task<IEnumerable<Passenger>>  GetPassengersByFileNo(string fileNo)
+    public async Task<bool> InsertPassengers(CreateBookingDto booking, string fileNumber)
+    {
+        var passengerRecords = booking.Passengers.Select(p => PassengerRecord.MapFromDto(p, fileNumber)).ToList();
+        var xml = passengerRecords.ToDataSet(
+            dataSetName: "dsTarscBookingPassengerList",
+            tableName: "dtPassenger"
+            ).GetXml();
+        var result = await client.ExecuteRunFile(
+            context.Tenant.TarscServerAddress,
+            context.Tenant.TarscServerPort,
+            "TARSCWS_V6\\-APASLST.RUN",
+            xml
+        );
+        
+        // check for errors
+        if(result.ErrorOccurred)
+            throw new Exception("Error occurred while inserting passengers: " + result.Message);
+
+        var sync = await client.ExecuteRunFile(
+            context.Tenant.TarscServerAddress, 
+            context.Tenant.TarscServerPort,
+            "TARSCWS_V6\\-SYNCPAS.RUN", 
+            xml);
+        if (sync.ErrorOccurred)
+            throw new Exception("Error occurred while syncing passengers: " + sync.Message);
+        
+        return await Task.FromResult(true);
+    }
+    public async Task<IEnumerable<PassengerViewDto>>  GetPassengersByFileNo(string fileNo)
     {
         try
         {

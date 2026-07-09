@@ -1,4 +1,5 @@
-﻿using Huxley.Booking.Core.Helpers;
+﻿using Huxley.Booking.Core.Costs.Contracts;
+using Huxley.Booking.Core.Helpers;
 
 namespace Huxley.Booking.Core.Costs.Data;
 
@@ -26,18 +27,38 @@ public class CostRecord
     public string NegativeFactorPassword { get; set; }
     public string RestrictedDiscountPassword { get; set; }
     public string FailureDiscountPassword { get; set; }
+    
+    public static CostRecord MapFromDto(CreateCostDto dto, string fileNumber)
+    {
+        ArgumentNullException.ThrowIfNull(dto);
+        ArgumentException.ThrowIfNullOrEmpty(fileNumber);
+        
+        return new CostRecord
+        {
+            FileNumber = fileNumber,
+            Company = dto.Supplier,
+            CostType = dto.CostType,
+            Notes = dto.Notes,
+            Code = dto.CostCode,
+            Reference = dto.Reference,
+            Value = dto.Amount,
+            AutoCommissionFlag = dto.AutoCommissionFlag ? "Y" : "N",
+            VAT = dto.Vat,
+            Initials = dto.Initials
+        };
+    }
 }
 
 public static class CostRecordExtensions
 {
-    public static Cost ToCost(this CostRecord costRecord)
+    public static CostViewDto ToCost(this CostRecord costRecord)
     {
         if (costRecord == null)
         {
             throw new ArgumentNullException(nameof(costRecord));
         }
 
-        return new Cost
+        return new CostViewDto
         {
             FileNumber = costRecord.FileNumber,
             SaleDate = costRecord.SaleDate.ParseDateOnly(), // DateOnly.TryParse(costRecord.SaleDate, out var saleDate) ? saleDate : default,

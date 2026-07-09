@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Huxley.Booking.Core.Costs.Contracts;
 using Huxley.Booking.Core.Costs.Data;
 using Huxley.Core;
 using MediatR;
@@ -40,18 +41,18 @@ public class GetCostsForBooking(
 
 public class GetCostsForBookingResponse
 {
-    public Cost[] Costs { get; set; }
+    public CostViewDto[] Costs { get; set; }
     public bool Successful { get; set; }
     public string[] FailureReasons { get; set; }
 
-    private GetCostsForBookingResponse(bool successful, string[] failureReasons, Cost[] costs)
+    private GetCostsForBookingResponse(bool successful, string[] failureReasons, CostViewDto[] costs)
     {
         Successful = successful;
         FailureReasons = failureReasons;
         Costs = costs;
     }
 
-    public static GetCostsForBookingResponse CreateSuccess(IEnumerable<Cost> costs) =>
+    public static GetCostsForBookingResponse CreateSuccess(IEnumerable<CostViewDto> costs) =>
         new GetCostsForBookingResponse(true, [], costs.ToArray());
 
     public static GetCostsForBookingResponse CreateFailure(string[] reasons) =>

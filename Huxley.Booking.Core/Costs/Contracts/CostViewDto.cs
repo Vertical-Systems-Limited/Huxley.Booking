@@ -1,6 +1,6 @@
-﻿namespace Huxley.Booking.Core.Costs;
+﻿namespace Huxley.Booking.Core.Costs.Contracts;
 
-public class Cost
+public class CostViewDto
 {
     public string FileNumber { get; set; }
     public DateOnly SaleDate { get; set; }

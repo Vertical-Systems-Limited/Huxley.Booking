@@ -1,0 +1,173 @@
+@Huxley_Booking_WebApi_HostAddress = https://localhost:44353/api
+@Huxley_Metering_TestApi_ApiKey = 9be99054-1da4-4006-979c-a188b6498c9f
+@Huxley_Metering_TestApi_ApiAuth = HvNWZOFMNkya8btTqzHwFRsyK8AV6l4XKW7ULeCVp2znRFgpNBIUUiOdjMp9BJKl
+
+POST {{Huxley_Booking_WebApi_HostAddress}}/bookings/CreateBooking
+Accept: application/json
+Content-Type: application/json
+X-VSL-ApiKey: {{Huxley_Metering_TestApi_ApiKey}}
+X-VSL-ApiAuth: {{Huxley_Metering_TestApi_ApiAuth}}
+
+{
+  "Booking": {
+    "AgentInitials": "FAY",
+    "BranchNumber": "7",
+    "LeadSupplier": "TUI",
+    "PrimaryCode": "SSU",
+    "SecondaryCode": "NEW",
+    "TertiaryCode": "M3",
+    "SubTertiaryCode": "M3 SUB",
+    "DeparturePoint": "LGW",
+    "ArrivalPoint": "GRO",
+    "DepartureDate": "24/06/2027",
+    "Duration": "7",
+    "Reference1": "26787936",
+    "Reference2": null,
+    "HotelName": null,
+    "BoardBasis": null,
+    "RoomType": null,
+    "AddressLine1": null,
+    "AddressLine2": null,
+    "AddressLine3": null,
+    "AddressLine4": null,
+    "PrimaryPhoneNumber": null,
+    "SecondaryPhoneNumber": "",
+    "DpaFlag1": "Y",
+    "DpaFlag2": "Y",
+    "Passengers": [
+      {
+        "Title": "Mrs",
+        "FirstName": "Hazel",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Mr",
+        "FirstName": "Stuart",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Miss",
+        "FirstName": "Orlan",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Master",
+        "FirstName": "Ozzy",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      }
+    ],
+    "Costs": [
+      {
+        "Supplier": "TUI",
+        "CostType": "T",
+        "Notes": "TOTAL COST",
+        "CostCode": "PKG",
+        "Reference": "26787936",
+        "Amount": "3973.00",
+        "AutoCommissionFlag": false,
+        "Vat": "0",
+        "Initials": "HEL"
+      },
+      {
+        "Supplier": "TUI",
+        "CostType": "C",
+        "Notes": "FACTOR",
+        "CostCode": "PKG",
+        "Reference": "26787936",
+        "Amount": "549.48",
+        "AutoCommissionFlag": false,
+        "Vat": "109.86",
+        "Initials": "HEL"
+      }
+    ],
+    "Itinerary": [
+      {
+        "$type": "flight",        
+        "Segments": [
+          {
+            "DeparturePointCode": "LGW",
+            "DepartureDateTime": "2027-06-24T06:10:00Z",
+            "ArrivalPointCode": "GRO",
+            "ArrivalDateTime": "2027-06-24T09:10:00Z",
+            "Carrier": "TUI Airways",
+            "CabinClass": "Standard",
+            "FlightNumber": "TOM4240",
+            "Baggage": "20kg Hold Luggage x 4,10kg Hand Luggage x 4",
+            "Seats": "9F,9E,9D,9C",
+            "Meals": "",
+            "Extras": "Select Your Seat x 4",
+            "SpecialRequests": "",
+            "DatePoint": "2027-06-24T06:10:00Z"
+          },
+          {
+            "DeparturePointCode": "GRO",
+            "DepartureDateTime": "2027-07-01T10:35:00Z",
+            "ArrivalPointCode": "LGW",
+            "ArrivalDateTime": "2027-07-01T11:40:00Z",
+            "Carrier": "TUI Airways",
+            "CabinClass": "Standard",
+            "FlightNumber": "TOM4241",
+            "Baggage": "20kg Hold Luggage x 4,10kg Hand Luggage x 4",
+            "Seats": "9A,9B,9C,9D",
+            "Meals": "",
+            "Extras": "Select Your Seat x 4",
+            "SpecialRequests": "",
+            "DatePoint": "2027-07-01T10:35:00Z"
+          }
+        ],
+        "Position": 1
+      },
+      {
+        "$type": "accommodation",
+        "Name": "Golden Bahia de Tossa & Spa Hotel",
+        "Resort": "Tossa De Mar",
+        "Rooms": [
+          {
+            "RoomType": " Family Room with Balcony",
+            "Board": "All Inclusive",
+            "Price": 0.0,
+            "SpecialRequests": ""
+          }
+        ],
+        "CheckInDate": "2027-06-24",
+        "CheckOutDate": "2027-07-01",
+        "Nights": 7,
+        "DatePoint": "2027-06-24T23:59:59.9999999",
+        "Position": 2
+      },
+      {
+        "$type": "transfer",
+        "PickUpLocation": "GRO",
+        "DropOffLocation": "Golden Bahia de Tossa & Spa Hotel - Tossa De Mar",
+        "PickUpDateTime": "2027-06-24",
+        "TimeFrom": "00:00:00",
+        "VehicleType": "Coach",
+        "DatePoint": "2027-06-24T00:00:00",
+        "Position": 3
+      },
+      {
+        "$type": "transfer",
+        "PickUpLocation": "Golden Bahia de Tossa & Spa Hotel - Tossa De Mar",
+        "DropOffLocation": "GRO",
+        "PickUpDateTime": "2027-07-01",
+        "TimeFrom": "00:00:00",
+        "VehicleType": "Coach",
+        "DatePoint": "2027-07-01T00:00:00",
+        "Position": 4
+      }
+    ]
+  }
+}
+

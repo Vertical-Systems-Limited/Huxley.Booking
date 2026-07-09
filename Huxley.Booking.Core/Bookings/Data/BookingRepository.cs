@@ -1,4 +1,6 @@
-﻿using Huxley.Core.LegacyHelpers;
+﻿using System.Data;
+using Huxley.Booking.Core.Bookings.Contracts;
+using Huxley.Core.LegacyHelpers;
 using Huxley.Hosting.Core;
 using Huxley.Legacy.VslRuntime.Client;
 using Microsoft.Extensions.Logging;
@@ -7,7 +9,9 @@ namespace Huxley.Booking.Core.Bookings.Data;
 
 public interface IBookingRepository
 {
-    Task<Booking> GetBookingByFileNo(string fileNo);
+    Task<string> InsertBooking(CreateBookingDto booking);
+    Task<BookingViewDto> GetBookingByFileNo(string fileNo);
+    Task<bool> ConfirmBooking(string fileNumber);
 }
 
 public class BookingRepository(
@@ -16,7 +20,28 @@ public class BookingRepository(
     HuxleyContext context
     ) : IBookingRepository
 {
-    public async Task<Booking> GetBookingByFileNo(string fileNo)
+    public async Task<string> InsertBooking(CreateBookingDto booking)
+    {
+        var record = BookingRecord.MapFromDto(booking);
+        var xml = record.ToDataSet(dataSetName:"dsTarscBooking", tableName:"dtBooking").GetXml();
+        var result = await client.ExecuteRunFile(
+            context.Tenant.TarscServerAddress,
+            context.Tenant.TarscServerPort,
+            "TARSCWS_V6\\-CREATEF.RUN",
+            xml
+        );
+        
+        // check for errors
+        if(result.ErrorOccurred)
+            throw new Exception("Error occurred while inserting booking: " + result.Message);
+
+        // unpack the new File Number from the output xml
+        var createBookingOutput = result.OutputXml.DeserializeXmlToTypeOf<CreateBookingOutput>();
+        
+        // return the new File Number
+        return createBookingOutput.FileNumber;
+    }
+    public async Task<BookingViewDto> GetBookingByFileNo(string fileNo)
     {
         try
         {
@@ -34,7 +59,7 @@ public class BookingRepository(
                 throw new Exception("Error occurred while fetching booking: " + result.Message);
 
             // deserialize the output xml
-            var bookingRecord = result.OutputXml.DeserializeXmlToTypeOf<BookingRecord>();
+            var bookingRecord = result.OutputXml.DeserializeXmlToTypeOf<BookingRecordView>();
             
             // map to booking and return
             return bookingRecord.ToBooking();
@@ -45,4 +70,35 @@ public class BookingRepository(
             throw;
         }
     }
+
+    public async Task<bool> ConfirmBooking(string fileNumber)
+    {
+        try
+        {
+            // confirm the booking in the runtime
+            var inputXml = $"<ROOT><FILENO>{fileNumber}</FILENO></ROOT>";
+            var result = await client.ExecuteRunFile(
+                context.Tenant.TarscServerAddress,
+                context.Tenant.TarscServerPort,
+                "TARSCWS_V6\\-AUTOCONF.RUN",
+                inputXml
+            );
+            
+            // check for errors
+            if(result.ErrorOccurred)
+                throw new Exception("Error occurred while confirming booking: " + result.Message);
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to confirm booking by file number {FileNo}", fileNumber);
+            throw;
+        }
+    }
+}
+
+internal class CreateBookingOutput
+{
+    public string FileNumber { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Huxley.Booking.Core.Passengers.Contracts;
 using Huxley.Booking.Core.Passengers.Data;
 using Huxley.Core;
 using MediatR;
@@ -39,18 +40,18 @@ public class GetPassengersForBooking(
 
 public class GetPassengersForBookingResponse
 {
-    public Passenger[] Passengers { get; set; }
+    public PassengerViewDto[] Passengers { get; set; }
     public bool Successful { get; set; }
     public string[] FailureReasons { get; set; }
 
-    private GetPassengersForBookingResponse(bool successful, string[] failureReasons, Passenger[] passengers)
+    private GetPassengersForBookingResponse(bool successful, string[] failureReasons, PassengerViewDto[] passengers)
     {
         Successful = successful;
         FailureReasons = failureReasons;
         Passengers = passengers;
     }
 
-    public static GetPassengersForBookingResponse CreateSuccess(IEnumerable<Passenger> passengers) =>
+    public static GetPassengersForBookingResponse CreateSuccess(IEnumerable<PassengerViewDto> passengers) =>
         new GetPassengersForBookingResponse(true, [], passengers.ToArray());
 
     public static GetPassengersForBookingResponse CreateFailure(string[] reasons) =>

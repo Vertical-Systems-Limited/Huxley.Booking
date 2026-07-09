@@ -1,4 +1,5 @@
-﻿using Huxley.Booking.Core.Bookings.Queries;
+﻿using Huxley.Booking.Core.Bookings.Commands;
+using Huxley.Booking.Core.Bookings.Queries;
 using Huxley.Booking.Core.Costs.Queries;
 using Huxley.Booking.Core.Documents.Queries;
 using Huxley.Booking.Core.Itinerary.BookingItineraries.Queries;
@@ -15,6 +16,16 @@ public class BookingController(
 
 )
 {
+    [HttpPost]
+    [Route("CreateBooking")]
+    public async Task<ActionResult<CreateBookingResponse>> CreateBooking(
+        [FromBody] CreateBookingRequest request,
+        CancellationToken cancellationToken)
+    {        
+        var response = await mediator.Send(request, cancellationToken);
+        return response.ToActionResult();
+    }
+    
     [HttpGet]
     [Route("GetBookingByFileNo")]
     public async Task<ActionResult<GetBookingByFileNoResponse>> GetBookingByFileNo(
@@ -75,7 +86,16 @@ public class BookingController(
         return response.ToActionResult();
     }
     
+    [HttpPost]
+    [Route("ConfirmBooking")]
+    public async Task<ActionResult<ConfirmBookingResponse>> ConfirmBooking(
+        [FromBody] ConfirmBookingRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await mediator.Send(request, cancellationToken);
+        return response.ToActionResult();
+    }
     // TODO: Endpoint for Getting Itineraries
-    // TODO: Endpoint for Getting Documents
-    // TODO: Endpoint for Importing Booking
+    // TODO: Endpoint for Setting Itineraries
+
 }

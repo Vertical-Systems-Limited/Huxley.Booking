@@ -1,4 +1,6 @@
-﻿using Huxley.Core.LegacyHelpers;
+﻿using Huxley.Booking.Core.Bookings.Contracts;
+using Huxley.Booking.Core.Costs.Contracts;
+using Huxley.Core.LegacyHelpers;
 using Huxley.Hosting.Core;
 using Huxley.Legacy.VslRuntime.Client;
 using Microsoft.Extensions.Logging;
@@ -7,7 +9,8 @@ namespace Huxley.Booking.Core.Costs.Data;
 
 public interface ICostRepository
 {
-    Task<IEnumerable<Cost>> GetCostsForFileNo(string fileNo);
+    Task<bool> InsertCosts(CreateBookingDto booking, string fileNumber);
+    Task<IEnumerable<CostViewDto>> GetCostsForFileNo(string fileNo);
 }
 
 public class CostRepository(
@@ -16,7 +19,28 @@ public class CostRepository(
     HuxleyContext context
     ) : ICostRepository
 {
-    public async Task<IEnumerable<Cost>> GetCostsForFileNo(string fileNo)
+    public async Task<bool> InsertCosts(CreateBookingDto booking, string fileNumber)
+    {
+        var costRecords = booking.Costs.Select(c => CostRecord.MapFromDto(c, fileNumber)).ToList();
+        var xml = costRecords.ToDataSet(
+            dataSetName: "dsTarscBookingCostList",
+            tableName: "dtCost"
+            ).GetXml();
+        var result = await client.ExecuteRunFile(
+            context.Tenant.TarscServerAddress,
+            context.Tenant.TarscServerPort,
+            "TARSCWS_V6\\-ADDCOST.RUN",
+            xml
+        );
+        
+        // check for errors
+        if(result.ErrorOccurred)
+            throw new Exception("Error occurred while inserting costs: " + result.Message);
+
+        return await Task.FromResult(true);
+    }
+
+    public async Task<IEnumerable<CostViewDto>> GetCostsForFileNo(string fileNo)
     {
         try
         {

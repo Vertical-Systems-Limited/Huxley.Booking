@@ -1,6 +1,6 @@
-﻿namespace Huxley.Booking.Core.Passengers;
+﻿namespace Huxley.Booking.Core.Passengers.Contracts;
 
-public class Passenger
+public class PassengerViewDto
 {
     public int PassengerId { get; set; }
     public string FileNumber { get; set; }
