@@ -1,9 +1,13 @@
 ﻿using System.Data;
+using Huxley.Booking.Core.Agents.Data;
+using Huxley.Booking.Core.AnalysisCodes.Caching;
 using Huxley.Booking.Core.Bookings.Contracts;
 using Huxley.Core.LegacyHelpers;
 using Huxley.Hosting.Core;
+using Huxley.Hosting.Core.Data;
 using Huxley.Legacy.VslRuntime.Client;
 using Microsoft.Extensions.Logging;
+using IBranchRepository = Huxley.Booking.Core.Branches.Data.IBranchRepository;
 
 namespace Huxley.Booking.Core.Bookings.Data;
 
@@ -17,7 +21,10 @@ public interface IBookingRepository
 public class BookingRepository(
     ILogger<BookingRepository> logger,
     IHuxleyVslRuntimeApiClient client,
-    HuxleyContext context
+    HuxleyContext context,
+    IAnalysisCodeNameCache analysisCodeNameCache,
+    IBranchRepository branchRepository,
+    IAgentRepository agentRepository
     ) : IBookingRepository
 {
     public async Task<string> InsertBooking(CreateBookingDto booking)
@@ -60,9 +67,33 @@ public class BookingRepository(
 
             // deserialize the output xml
             var bookingRecord = result.OutputXml.DeserializeXmlToTypeOf<BookingRecordView>();
+
+            // map to booking
+            var booking = bookingRecord.ToBooking();
             
-            // map to booking and return
-            return bookingRecord.ToBooking();
+            // resolve agent name from the agent repository
+            var agent = await agentRepository.GetAgent(booking.TarscInitials);
+            booking.AgentName = agent.Name;
+            
+            // get the branch name from the branch repository
+            var branch = await branchRepository.GetBranch(booking.BranchNumber);
+            booking.BranchName = branch.BranchName;
+
+            // resolve analysis code names from the per-tenant cache (falls back to null names on failure)
+            try
+            {
+                var analysisCodes = await analysisCodeNameCache.GetSnapshot(context.Tenant.TenantId);
+                booking.PrimaryCodeName = analysisCodes.TryGetName(AnalysisCodeType.Primary, booking.PrimaryCode);
+                booking.SecondaryCodeName = analysisCodes.TryGetName(AnalysisCodeType.Secondary, booking.SecondaryCode);
+                booking.TertiaryCodeName = analysisCodes.TryGetName(AnalysisCodeType.Tertiary, booking.TertiaryCode);
+                booking.SubTertiaryCodeName = analysisCodes.TryGetName(AnalysisCodeType.SubTertiary, booking.SubTertiaryCode, booking.TertiaryCode);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to resolve analysis code names for file number {FileNo}", fileNo);
+            }
+
+            return booking;
         }
         catch (Exception e)
         {

@@ -24,13 +24,14 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
+        
+        builder.Services.AddHuxleyWebHosting(builder.Configuration.GetSection("HostingConfiguration"));
         builder.Services.AddHuxleyMetering(builder.Configuration.GetSection("MeteringOptions"));
         builder.Services.AddMeteringMessaging();
       
         builder.Services.AddBookingCore(builder.Configuration);
         builder.Services.AddBookingCoreLogging("Booking.WebApi");
 
-        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

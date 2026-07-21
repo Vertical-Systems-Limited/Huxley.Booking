@@ -1,13 +1,20 @@
 ﻿using FluentValidation;
+using Huxley.Booking.Core.Agents.Caching;
+using Huxley.Booking.Core.AnalysisCodes.Caching;
+using Huxley.Booking.Core.Branches.Caching;
 using Huxley.Core;
 using Huxley.Hosting.Configuration;
 using Huxley.Legacy.VslRuntime.Client;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Grafana.Loki;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Backplane.StackExchangeRedis;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace Huxley.Booking.Core.Configuration;
 
@@ -16,7 +23,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddBookingCore(this IServiceCollection services, IConfiguration configuration)
     {
         // add options
-        services.AddOptions<BookingOptions>().Bind(configuration);
+        services.AddOptions<BookingOptions>().Bind(configuration.GetSection(nameof(BookingOptions)));
         // explicitly retrieve options
         var bookingOptions = configuration.GetSection(nameof(BookingOptions)).Get<BookingOptions>();
         
@@ -31,6 +38,25 @@ public static class ServiceCollectionExtensions
         // add huxley hosting
         services.AddHuxleyWebHosting(configuration.GetSection(nameof(HostingConfiguration)));
         
+        // add booking api tenant settings provider
+        services.AddTransient<IBookingApiTenantSettingsProvider, BookingApiTenantSettingsProvider>();
+
+        // add analysis code name cache (per-tenant, L1 in-memory + L2 Redis via FusionCache)
+        services.AddOptions<AnalysisCodeCacheOptions>().Bind(configuration.GetSection(nameof(AnalysisCodeCacheOptions)));
+        var analysisCodeCacheOptions = configuration.GetSection(nameof(AnalysisCodeCacheOptions)).Get<AnalysisCodeCacheOptions>() ?? new AnalysisCodeCacheOptions();
+        services.AddFusionCache()
+            .WithSerializer(new FusionCacheSystemTextJsonSerializer())
+            .WithDistributedCache(new RedisCache(new RedisCacheOptions { Configuration = analysisCodeCacheOptions.RedisConnectionString }))
+            .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = analysisCodeCacheOptions.RedisConnectionString }));
+        services.AddSingleton<IAnalysisCodeNameCache, AnalysisCodeNameCache>();
+        services.AddHostedService<AnalysisCodeCachePreloadService>();
+
+        // add branch cache options (reuses the same FusionCache instance registered above; no preload, on-demand only)
+        services.AddOptions<BranchCacheOptions>().Bind(configuration.GetSection(nameof(BranchCacheOptions)));
+
+        // add agent cache options (reuses the same FusionCache instance registered above; no preload, on-demand only)
+        services.AddOptions<AgentCacheOptions>().Bind(configuration.GetSection(nameof(AgentCacheOptions)));
+
         // add validators
         services.AddValidatorsFromAssemblyContaining<BookingCoreRoot>();
         // add transient services by convention

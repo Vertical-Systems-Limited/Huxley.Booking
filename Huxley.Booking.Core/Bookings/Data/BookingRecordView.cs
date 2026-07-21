@@ -88,6 +88,8 @@ public static class BookingRecordExtensions
             throw new ArgumentNullException(nameof(bookingRecord));
         }
 
+        var (secondaryCode, tertiaryCode, subTertiaryCode) = ParseMarketingCode(bookingRecord.MarketingCode);
+
         return new BookingViewDto
         {
             FileNumber = bookingRecord.FileNumber,
@@ -109,7 +111,10 @@ public static class BookingRecordExtensions
             SubReference = bookingRecord.SubReference,
             HolidayNumber = bookingRecord.HolidayNumber,
             Profile = bookingRecord.Profile,
-            AnalysisCode = bookingRecord.AnalysisCode,
+            PrimaryCode = bookingRecord.AnalysisCode,
+            SecondaryCode = secondaryCode,
+            TertiaryCode = tertiaryCode,
+            SubTertiaryCode = subTertiaryCode,
             MarketingCode = bookingRecord.MarketingCode,
             NoteText1 = bookingRecord.NoteText1,
             NoteText2 = bookingRecord.NoteText2,
@@ -158,5 +163,18 @@ public static class BookingRecordExtensions
             InsuranceNoteText = bookingRecord.InsuranceNoteText,
             BalanceDueDateType = bookingRecord.BalanceDueDateType
         };
+    }
+
+    // MarketingCode is the legacy system's packed representation of the analysis code hierarchy:
+    // "{secondary}/{tertiary}/{sub-tertiary}" — sub-tertiary is optional and may be absent entirely.
+    private static (string SecondaryCode, string TertiaryCode, string SubTertiaryCode) ParseMarketingCode(string marketingCode)
+    {
+        if (string.IsNullOrEmpty(marketingCode))
+            return (null, null, null);
+
+        var parts = marketingCode.Split('/');
+        string Part(int index) => parts.Length > index && !string.IsNullOrEmpty(parts[index]) ? parts[index] : null;
+
+        return (Part(0), Part(1), Part(2));
     }
 }

@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Huxley.Hosting" Version="8.2.9" />
         <PackageReference Include="Huxley.Metering.Core" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.28" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>

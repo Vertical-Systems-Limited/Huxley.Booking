@@ -4,4 +4,5 @@ public class BookingOptions
 {
     public string RuntimeApiUrl { get; set; }
     public string LokiUrl { get; set; }
+    public Guid ApiId { get; set; }
 }

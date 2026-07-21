@@ -4,7 +4,9 @@ public class BookingViewDto
 {
     public string FileNumber { get; set; }
     public int BranchNumber { get; set; }
+    public string BranchName { get; set; }
     public string TarscInitials { get; set; }
+    public string AgentName { get; set; }
     public string BookingType { get; set; }
     public DateTime BookingDate { get; set; }
     public DateTime DepartureDate { get; set; }
@@ -21,7 +23,14 @@ public class BookingViewDto
     public string SubReference { get; set; }
     public string HolidayNumber { get; set; }
     public string Profile { get; set; }
-    public string AnalysisCode { get; set; }
+    public string PrimaryCode { get; set; }
+    public string PrimaryCodeName { get; set; }
+    public string SecondaryCode { get; set; }
+    public string SecondaryCodeName { get; set; }
+    public string TertiaryCode { get; set; }
+    public string TertiaryCodeName { get; set; }
+    public string SubTertiaryCode { get; set; }
+    public string SubTertiaryCodeName { get; set; }
     public string MarketingCode { get; set; }
     public string NoteText1 { get; set; }
     public string NoteText2 { get; set; }
