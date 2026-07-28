@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huxley.Booking.WebApi", "Hu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huxley.Booking.Debugger", "Huxley.Booking.Debugger\Huxley.Booking.Debugger.csproj", "{0779CF5D-D733-4EC2-8C20-8C4D6398A868}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huxley.Booking.Performance", "Huxley.Booking.Performance\Huxley.Booking.Performance.csproj", "{5313BB8C-AD69-40D5-81CF-C6B510833FB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0779CF5D-D733-4EC2-8C20-8C4D6398A868}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0779CF5D-D733-4EC2-8C20-8C4D6398A868}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0779CF5D-D733-4EC2-8C20-8C4D6398A868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5313BB8C-AD69-40D5-81CF-C6B510833FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5313BB8C-AD69-40D5-81CF-C6B510833FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5313BB8C-AD69-40D5-81CF-C6B510833FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5313BB8C-AD69-40D5-81CF-C6B510833FB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

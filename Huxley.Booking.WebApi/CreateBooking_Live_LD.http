@@ -1,0 +1,110 @@
+@Huxley_Booking_WebApi_HostAddress = https://api.verticalsystems.co.uk/hx-booking-v3/api
+@Huxley_Metering_TestApi_ApiKey = 66f2c954-6a69-4bca-9235-c3d7d75a602e
+@Huxley_Metering_TestApi_ApiAuth = 3SE4Ipe8NicJz2pHgHjN6m1ifVPxKc0e85OhIVU7Ka6eQFIZVHFGBQm5iWn7SL4F
+
+
+POST {{Huxley_Booking_WebApi_HostAddress}}/bookings/CreateBooking
+Accept: application/json
+Content-Type: application/json
+X-VSL-ApiKey: {{Huxley_Metering_TestApi_ApiKey}}
+X-VSL-ApiAuth: {{Huxley_Metering_TestApi_ApiAuth}}
+
+{
+  "Booking": {
+    "AgentInitials": "HEL",
+    "BranchNumber": "1",
+    "LeadSupplier": "TUI",
+    "PrimaryCode": "SSU",
+    "SecondaryCode": "NEW",
+    "TertiaryCode": "M3",
+    "SubTertiaryCode": "M3 SUB",
+    "DeparturePoint": "LGW",
+    "ArrivalPoint": "GRO",
+    "DepartureDate": "24/06/2027",
+    "Duration": "7",
+    "Reference1": "26787936",
+    "Reference2": null,
+    "HotelName": null,
+    "BoardBasis": null,
+    "RoomType": null,
+    "AddressLine1": null,
+    "AddressLine2": null,
+    "AddressLine3": null,
+    "AddressLine4": null,
+    "PrimaryPhoneNumber": null,
+    "SecondaryPhoneNumber": "",
+    "DpaFlag1": "Y",
+    "DpaFlag2": "Y",
+    "Passengers": [
+      {
+        "Title": "Mrs",
+        "FirstName": "Hazel",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Mr",
+        "FirstName": "Stuart",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Miss",
+        "FirstName": "Orlan",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      },
+      {
+        "Title": "Master",
+        "FirstName": "Ozzy",
+        "MiddleName": "",
+        "LastName": "Tester",
+        "Email": "",
+        "Dob": "0001-01-01"
+      }
+    ],
+    "Costs": [
+      {
+        "Supplier": "TUI",
+        "CostType": "T",
+        "Notes": "TOTAL COST",
+        "CostCode": "PKG",
+        "Reference": "26787936",
+        "Amount": "1160.84",
+        "AutoCommissionFlag": false,
+        "Vat": "0",
+        "Initials": "HEL"
+      },
+      {
+        "Supplier": "TUI",
+        "CostType": "C",
+        "Notes": "FACTOR",
+        "CostCode": "PKG",
+        "Reference": "26787936",
+        "Amount": "181.09",
+        "AutoCommissionFlag": false,
+        "Vat": "30.18",
+        "Initials": "HEL"
+      },
+      {
+        "Supplier": "DISCAT",
+        "CostType": "O",
+        "Notes": "DISCOUNT",
+        "CostCode": "PKG",
+        "Reference": "X9999",
+        "Amount": "-86.84",
+        "AutoCommissionFlag": false,
+        "Vat": "0",
+        "Initials": "HEL"
+      }
+    ],
+    "Itinerary": []
+  }
+}
+
