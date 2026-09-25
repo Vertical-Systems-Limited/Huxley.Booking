@@ -8,6 +8,8 @@ public class BookingApiTenantSettings
 {
     public Guid TenantId { get; set; }
     public bool PreLoadAnalysisCodes { get; set; }
+    public bool PreLoadUsers { get; set; }
+    public bool PreLoadBranches { get; set; }
 }
 
 public interface IBookingApiTenantSettingsProvider
@@ -27,11 +29,7 @@ public class BookingApiTenantSettingsProvider(
     {
         try
         {
-            var properties = await settingsFactory.GetTenantSettings<BookingApiTenantSettings>(options.Value.ApiId, tenantId, (dictionary, settings) =>
-            {
-                settings.TenantId = tenantId;
-                settings.PreLoadAnalysisCodes = dictionary.Get(BookingApiProperties.PreLoadAnalysisCodes).As<bool>();   
-            });
+            var properties = await settingsFactory.GetTenantSettings<BookingApiTenantSettings>(options.Value.ApiId, tenantId, AssignSettingsFromDictionary);
             return properties;
         }
         catch (Exception e)
@@ -51,20 +49,25 @@ public class BookingApiTenantSettingsProvider(
     public async Task<IEnumerable<BookingApiTenantSettings>> GetSettingsForAllTenants()
     {
         var apiId = options.Value.ApiId;
-        var settings = await settingsFactory.GetSettings<BookingApiTenantSettings>(apiId, (dict, instance) =>
-        {
-            instance.TenantId = dict.Get(BookingApiProperties.PreLoadAnalysisCodes).TenantId;
-            instance.PreLoadAnalysisCodes = dict.Get(BookingApiProperties.PreLoadAnalysisCodes).As<bool>();
-        });
+        var settings = await settingsFactory.GetSettings<BookingApiTenantSettings>(apiId, AssignSettingsFromDictionary);
         return settings;
     }
 
+    private static void AssignSettingsFromDictionary(IDictionary<string, ApiProperty> dictionary, BookingApiTenantSettings settings)
+    {
+        settings.TenantId = dictionary.Get(BookingApiProperties.TenantId).As<Guid>();
+        settings.PreLoadAnalysisCodes = dictionary.Get(BookingApiProperties.PreLoadAnalysisCodes).As<bool>();
+        settings.PreLoadUsers = dictionary.Get(BookingApiProperties.PreLoadUsers).As<bool>();
+        settings.PreLoadBranches = dictionary.Get(BookingApiProperties.PreLoadBranches).As<bool>();
+    }
 }
 
 public static class BookingApiProperties
 {
     public static string TenantId => "TenantId";
     public static string PreLoadAnalysisCodes => "PreLoadAnalysisCodes"; 
+    public static string PreLoadUsers => "PreLoadUsers";
+    public static string PreLoadBranches => "PreLoadBranches";
 }
 
 public static class DictionaryExtensions

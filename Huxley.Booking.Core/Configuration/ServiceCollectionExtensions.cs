@@ -41,13 +41,21 @@ public static class ServiceCollectionExtensions
         // add booking api tenant settings provider
         services.AddTransient<IBookingApiTenantSettingsProvider, BookingApiTenantSettingsProvider>();
 
-        // add analysis code name cache (per-tenant, L1 in-memory + L2 Redis via FusionCache)
+        // add shared cache infrastructure (L1 in-memory, optional L2 Redis + backplane via FusionCache)
+        // used by the analysis code, branch, and agent caches below
+        services.AddOptions<DistributedCacheOptions>().Bind(configuration.GetSection(nameof(DistributedCacheOptions)));
+        var distributedCacheOptions = configuration.GetSection(nameof(DistributedCacheOptions)).Get<DistributedCacheOptions>() ?? new DistributedCacheOptions();
+        var fusionCacheBuilder = services.AddFusionCache()
+            .WithSerializer(new FusionCacheSystemTextJsonSerializer());
+        if (distributedCacheOptions.RedisEnabled && !string.IsNullOrWhiteSpace(distributedCacheOptions.RedisConnectionString))
+        {
+            fusionCacheBuilder
+                .WithDistributedCache(new RedisCache(new RedisCacheOptions { Configuration = distributedCacheOptions.RedisConnectionString }))
+                .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = distributedCacheOptions.RedisConnectionString }));
+        }
+
+        // add analysis code name cache (per-tenant)
         services.AddOptions<AnalysisCodeCacheOptions>().Bind(configuration.GetSection(nameof(AnalysisCodeCacheOptions)));
-        var analysisCodeCacheOptions = configuration.GetSection(nameof(AnalysisCodeCacheOptions)).Get<AnalysisCodeCacheOptions>() ?? new AnalysisCodeCacheOptions();
-        services.AddFusionCache()
-            .WithSerializer(new FusionCacheSystemTextJsonSerializer())
-            .WithDistributedCache(new RedisCache(new RedisCacheOptions { Configuration = analysisCodeCacheOptions.RedisConnectionString }))
-            .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = analysisCodeCacheOptions.RedisConnectionString }));
         services.AddSingleton<IAnalysisCodeNameCache, AnalysisCodeNameCache>();
         services.AddHostedService<AnalysisCodeCachePreloadService>();
 

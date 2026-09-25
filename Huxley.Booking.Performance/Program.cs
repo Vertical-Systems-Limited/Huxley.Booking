@@ -21,6 +21,13 @@ public class Program
                     restrictedToMinimumLevel: LogEventLevel.Information);
         });
 
+        builder.Services.ConfigureHttpClientDefaults(http =>
+        {
+            http.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                PooledConnectionLifetime = TimeSpan.FromSeconds(30)
+            });
+        });
         builder.Services.AddHttpClient();
         builder.Services.AddHostedService<Worker>();
 
