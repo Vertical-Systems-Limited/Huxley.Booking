@@ -19,12 +19,12 @@ public class CruiseItineraryRepository(ILogger<BookingRepository> logger,
     {
         try
         {
-            // get the cruise itinerary from the runtime
+             // get the cruise itinerary from the runtime
             var inputXml = $"<ROOT><BOOKING_REFERENCE>{fileNo}</BOOKING_REFERENCE></ROOT>";
             var result = await client.ExecuteRunFile(
                 context.Tenant.TarscServerAddress,
                 context.Tenant.TarscServerPort,
-                "TARSCWS_V6\\-ITINCIT.RUN",
+                "TARSCWS_V6\\-ITINNCR.RUN",
                 inputXml
             );
         
