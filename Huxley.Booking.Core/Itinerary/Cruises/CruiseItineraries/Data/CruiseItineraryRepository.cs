@@ -1,4 +1,5 @@
-﻿using Huxley.Booking.Core.Bookings.Data;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Huxley.Booking.Core.Bookings.Data;
 using Huxley.Core.LegacyHelpers;
 using Huxley.Hosting.Core;
 using Huxley.Legacy.VslRuntime.Client;
@@ -17,6 +18,9 @@ public class CruiseItineraryRepository(ILogger<BookingRepository> logger,
 {
     public async Task<IEnumerable<CruiseItineraryRecord>> GetCruiseItineraryRecordsForFileNo(string fileNo)
     {
+        string StripMarkersFromTimeString(string timeString) =>
+            timeString.Replace("T", "").Replace("Z", "").Trim();
+        
         try
         {
              // get the cruise itinerary from the runtime
@@ -33,9 +37,16 @@ public class CruiseItineraryRepository(ILogger<BookingRepository> logger,
                 throw new Exception("Error occurred while fetching cruise itinerary: " + result.Message);
 
             // deserialize the output xml
-            var cruiseItineraryRecords = result.OutputXml.DeserializeXmlToEnumerableOf<CruiseItineraryRecord>();
+            var cruiseItineraryRecords = result.OutputXml.DeserializeXmlToEnumerableOf<CruiseItineraryRecord>().ToList();
         
-            return cruiseItineraryRecords.ToList();
+            // fix the time strings in the records
+            foreach (var record in cruiseItineraryRecords)
+            {
+                record.DepartTime = StripMarkersFromTimeString(record.DepartTime);
+                record.ArrivalTime = StripMarkersFromTimeString(record.ArrivalTime);
+            }
+            
+            return cruiseItineraryRecords;
         }
         catch (Exception e)
         {

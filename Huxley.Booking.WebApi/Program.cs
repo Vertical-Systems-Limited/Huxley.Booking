@@ -1,6 +1,6 @@
 using Huxley.Booking.Core.Configuration;
+using Huxley.Booking.WebApi.Serialization;
 using Huxley.Hosting.Configuration;
-using Huxley.Itinerary.Domain;
 using Huxley.Metering.Core.Configuration;
 
 
@@ -17,7 +17,7 @@ public class Program
             .AddControllers()
             .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ContractResolver = new ItineraryContractResolver();
+                options.SerializerSettings.ContractResolver = new PatchedItineraryContractResolver();
             })
             ;
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
