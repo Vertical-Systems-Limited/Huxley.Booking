@@ -12,7 +12,7 @@
       <PackageReference Include="FluentValidation" Version="12.1.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
       <PackageReference Include="Huxley.Core" Version="1.0.11" />
-      <PackageReference Include="Huxley.Hosting" Version="8.2.9" />
+      <PackageReference Include="Huxley.Hosting" Version="8.4.2" />
       <PackageReference Include="Huxley.Itinerary.Domain" Version="1.4.1" />
       <PackageReference Include="Huxley.Legacy.VslRuntime.Client" Version="1.4.2" />
       <PackageReference Include="MediatR" Version="14.0.0" />

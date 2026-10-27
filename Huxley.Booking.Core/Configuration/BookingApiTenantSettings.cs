@@ -53,9 +53,9 @@ public class BookingApiTenantSettingsProvider(
         return settings;
     }
 
-    private static void AssignSettingsFromDictionary(IDictionary<string, ApiProperty> dictionary, BookingApiTenantSettings settings)
+    private static void AssignSettingsFromDictionary(IDictionary<string, ApiProperty> dictionary, Guid tenantId, BookingApiTenantSettings settings)
     {
-        settings.TenantId = dictionary.Get(BookingApiProperties.TenantId).As<Guid>();
+        settings.TenantId = tenantId;
         settings.PreLoadAnalysisCodes = dictionary.Get(BookingApiProperties.PreLoadAnalysisCodes).As<bool>();
         settings.PreLoadUsers = dictionary.Get(BookingApiProperties.PreLoadUsers).As<bool>();
         settings.PreLoadBranches = dictionary.Get(BookingApiProperties.PreLoadBranches).As<bool>();

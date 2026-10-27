@@ -41,11 +41,11 @@ public class Program
         //     app.UseSwaggerUI();
         // }
 
-        app.Use(async (context, next) =>
-        {
-            context.Response.Headers.Append("X-Server-Name", Environment.MachineName);
-            await next();
-        });
+        // app.Use(async (context, next) =>
+        // {
+        //     context.Response.Headers.Append("X-Server-Name", Environment.MachineName);
+        //     await next();
+        // });
         app.UseHuxleyMetering();
         app.UseHttpsRedirection();
         app.UseAuthorization();
