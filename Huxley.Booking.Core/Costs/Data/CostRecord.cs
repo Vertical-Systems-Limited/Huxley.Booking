@@ -39,7 +39,7 @@ public class CostRecord
             Company = dto.Supplier,
             CostType = dto.CostType,
             Notes = dto.Notes,
-            Code = dto.CostCode,
+            AnalysisCode = dto.CostCode,
             Reference = dto.Reference,
             Value = dto.Amount,
             AutoCommissionFlag = dto.AutoCommissionFlag ? "Y" : "N",
