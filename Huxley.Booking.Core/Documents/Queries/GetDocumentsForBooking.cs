@@ -25,7 +25,39 @@ public class GetDocumentsForBooking(
         try
         {
             // get the docs
-            var docsList = await documentRepository.GetDocumentsByFileNo(request.FileNumber);
+            var docs = await documentRepository.GetDocumentsByFileNo(request.FileNumber);
+
+            var docsList = docs.ToList(); 
+            
+            // filter if needed
+            if (request.Filter == DocumentFilter.Latest)
+            {
+                var filteredList = new List<Document>();
+                foreach (var document in docsList)
+                {
+                    // exists?
+                    if(filteredList.Any(d=>d.LetterDate==document.LetterDate && d.Description == document.Description))
+                    {
+                        // get the existing one
+                        var existing = filteredList.First(d => d.LetterDate==document.LetterDate && d.Description == document.Description);
+                        // overwrite the existing one with the new one
+                        existing.Description = document.Description;
+                        existing.FileNumber = document.FileNumber;
+                        existing.LetterDate = document.LetterDate;
+                        existing.Location = document.Location;
+                        existing.LetterType = document.LetterType;
+                        existing.ReceiptNumber = document.ReceiptNumber;
+                        existing.TemplateName = document.TemplateName;
+                    }
+                    else
+                    {
+                        // add new
+                        filteredList.Add(document);
+                    }
+                }
+                docsList = filteredList;
+            }
+
             // return
             return GetDocumentsForBookingResponse.CreateSuccess(docsList);
         }
@@ -70,6 +102,13 @@ public class GetDocumentsForBookingResponse
 public class GetDocumentsForBookingRequest : IRequest<Result<GetDocumentsForBookingResponse>>
 {
     public string FileNumber { get; set; }
+    public DocumentFilter Filter { get; set; } = DocumentFilter.Latest;
+}
+
+public enum DocumentFilter
+{
+    All,
+    Latest
 }
 
 public class GetDocumentsForBookingRequestValidator : AbstractValidator<GetDocumentsForBookingRequest>

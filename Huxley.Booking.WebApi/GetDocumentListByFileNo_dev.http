@@ -1,0 +1,9 @@
+@Huxley_Booking_WebApi_HostAddress = https://localhost:44353/api
+@Huxley_Metering_TestApi_ApiKey = 9be99054-1da4-4006-979c-a188b6498c9f
+@Huxley_Metering_TestApi_ApiAuth = HvNWZOFMNkya8btTqzHwFRsyK8AV6l4XKW7ULeCVp2znRFgpNBIUUiOdjMp9BJKl
+@Huxley_FileNumer = 7004036 
+
+GET {{Huxley_Booking_WebApi_HostAddress}}/bookings/GetDocumentsByFileNo?FileNumber={{Huxley_FileNumer}}
+Accept: application/json
+X-VSL-ApiKey: {{Huxley_Metering_TestApi_ApiKey}}
+X-VSL-ApiAuth: {{Huxley_Metering_TestApi_ApiAuth}}

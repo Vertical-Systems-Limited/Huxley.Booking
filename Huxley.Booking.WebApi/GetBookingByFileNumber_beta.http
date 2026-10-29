@@ -1,7 +1,8 @@
 @Huxley_Booking_WebApi_HostAddress = https://api-beta.verticalsystems.co.uk/hx-booking/api
-@Huxley_Metering_TestApi_ApiKey = f48ad0e5-7f56-4bda-bbca-bcd73c1f0e1a
-@Huxley_Metering_TestApi_ApiAuth = P1kczamW3iWDhSOKQRy7hlYk3expjQAXxWYsicF8WvVzOPSSmTlwnsHzBUldxMh8
-@Huxley_FileNumer = 50236900
+@Huxley_Metering_TestApi_ApiKey = 9be99054-1da4-4006-979c-a188b6498c9f
+@Huxley_Metering_TestApi_ApiAuth = HvNWZOFMNkya8btTqzHwFRsyK8AV6l4XKW7ULeCVp2znRFgpNBIUUiOdjMp9BJKl
+@Huxley_FileNumer = 7004036 
+
 
 GET {{Huxley_Booking_WebApi_HostAddress}}/bookings/GetBookingByFileNo?FileNumber={{Huxley_FileNumer}}
 Accept: application/json
